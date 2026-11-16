@@ -15,7 +15,7 @@ const FARM_DECOS = [
 const Farm = {
   render() {
     const scene = document.getElementById('farm-scene');
-    let html = `<div class="farm-cow">${cowSVG(S.equipped.skin, S.equipped, { champion: S.ownedSkins.includes('campea') })}</div>`;
+    let html = `<div class="farm-cow">${cowHTML(150)}</div>`;
     for (const d of FARM_DECOS) {
       if (S.farmItems.includes(d.id)) {
         html += `<div class="farm-item" style="left:${d.x}%;top:${d.y}%">${d.emoji}</div>`;

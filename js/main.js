@@ -78,9 +78,14 @@ function editName(kind) {
 }
 
 function renderHome() {
-  document.getElementById('home-cow').innerHTML = cowSVG(S.equipped.skin, S.equipped);
+  document.getElementById('home-cow').innerHTML = cowHTML(150);
   document.getElementById('home-player').textContent = '👤 ' + S.playerName;
   document.getElementById('home-cowname').textContent = '🐮 "' + S.cowName + '"';
+  const hero = document.querySelector('.home-hero');
+  if (hero && ASSETS.bgFarm) {
+    hero.style.background =
+      'linear-gradient(rgba(255,255,255,.45),rgba(255,255,255,.45)),url(assets/bg-farm.jpg) center/cover';
+  }
 }
 
 function init() {
@@ -141,6 +146,13 @@ function init() {
   document.getElementById('tab-skins').addEventListener('click', () => { Shop.tab = 'skins'; Shop.render(); });
   document.getElementById('tab-acc').addEventListener('click', () => { Shop.tab = 'acc'; Shop.render(); });
   document.getElementById('cal-claim').addEventListener('click', () => Calendar.claim());
+
+  ASSETS.load().then(() => {
+    renderHome();
+    if (document.getElementById('screen-farm').classList.contains('active')) Farm.render();
+    if (document.getElementById('screen-shop').classList.contains('active')) Shop.render();
+    if (document.getElementById('screen-match3').classList.contains('active')) M3.render();
+  });
 }
 
 document.addEventListener('DOMContentLoaded', init);

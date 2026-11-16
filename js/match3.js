@@ -60,13 +60,19 @@ M3.render = function () {
       const el = M3.cellEls[m3key(r, c)];
       const cell = M3.board[r][c];
       el.classList.remove('sel', 'pop');
-      if (!cell) { el.innerHTML = ''; continue; }
+      if (!cell) { el.innerHTML = ''; el.style.backgroundImage = ''; continue; }
       let badge = '';
       if (cell.special === 'row') badge = '<span class="fx">↔</span>';
       if (cell.special === 'col') badge = '<span class="fx">↕</span>';
       if (cell.special === 'bomb') badge = '<span class="fx">💥</span>';
       if (cell.special === 'rainbow') badge = '<span class="fx">🌈</span>';
-      el.innerHTML = M3.TYPES[cell.type] + badge;
+      if (ASSETS.pieceURLs[cell.type]) {
+        el.style.backgroundImage = `url(${ASSETS.pieceURLs[cell.type]})`;
+        el.innerHTML = badge;
+      } else {
+        el.style.backgroundImage = '';
+        el.innerHTML = M3.TYPES[cell.type] + badge;
+      }
       if (M3.selected && M3.selected.r === r && M3.selected.c === c) el.classList.add('sel');
     }
   }
