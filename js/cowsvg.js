@@ -1,4 +1,32 @@
-/* Vaca desenhada em SVG — skins e acessórios equipáveis */
+/* Vaca — sprite gerado por IA (com fallback SVG) + skins por filtro CSS + acessórios */
+
+const SKIN_FILTERS = {
+  frisia:   'none',
+  castanha: 'sepia(.7) saturate(1.3) hue-rotate(-15deg) brightness(.95)',
+  dourada:  'sepia(.9) saturate(2) hue-rotate(-5deg) brightness(1.05)',
+  alien:    'sepia(1) saturate(2.5) hue-rotate(65deg) brightness(1.05)',
+  campea:   'sepia(.5) saturate(1.6) hue-rotate(-10deg) brightness(1.15) contrast(1.05)'
+};
+
+function cowHTML(size) {
+  size = size || 140;
+  if (typeof ASSETS !== 'undefined' && ASSETS.cowURL) {
+    const eq = S.equipped;
+    const f = SKIN_FILTERS[eq.skin] || 'none';
+    const overlay = (emoji, lx, ly, fs) =>
+      `<div style="position:absolute;left:${lx}%;top:${ly}%;transform:translate(-50%,-50%);font-size:${fs}px;line-height:1">${emoji}</div>`;
+    const hat = { palha: '👒', bone: '🧢', boina: '🎩' }[eq.hat];
+    const gl = eq.glasses ? '🕶️' : null;
+    const neck = { sino: '🔔', laco: '🎀' }[eq.neck];
+    return `<div style="position:relative;width:${size}px;height:${Math.round(size * 0.75)}px">` +
+      `<img src="${ASSETS.cowURL}" style="width:100%;height:100%;object-fit:contain;filter:${f}" alt="">` +
+      (hat ? overlay(hat, 27, 14, Math.round(size * 0.17)) : '') +
+      (gl ? overlay(gl, 26, 38, Math.round(size * 0.13)) : '') +
+      (neck ? overlay(neck, 30, 62, Math.round(size * 0.13)) : '') +
+      `</div>`;
+  }
+  return cowSVG(S.equipped.skin, S.equipped);
+}
 
 const COW_SKINS = {
   frisia:  { body: '#f7f2e7', spots: '#3b3b3b', muzzle: '#e8b7b0', name: 'Frísia', price: 0 },

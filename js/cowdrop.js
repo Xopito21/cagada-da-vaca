@@ -275,16 +275,22 @@ CD.draw = function (time) {
   const gx = CD.gx, gy = CD.gy;
   ctx.clearRect(0, 0, CD.W, CD.H);
 
-  /* céu e sol */
-  ctx.fillStyle = '#8ed6f5';
-  ctx.fillRect(0, 0, CD.W, gy);
-  ctx.fillStyle = '#ffd977';
-  ctx.beginPath(); ctx.arc(320, 34, 22, 0, Math.PI * 2); ctx.fill();
-  /* relva */
-  ctx.fillStyle = '#7ec850';
-  ctx.fillRect(0, gy - 14, CD.W, CD.H - gy + 14);
-  ctx.fillStyle = '#6cb844';
-  ctx.fillRect(0, gy - 14, CD.W, 8);
+  if (ASSETS.bgField) {
+    const img = ASSETS.bgField;
+    const s = Math.max(CD.W / img.width, CD.H / img.height);
+    const dw = img.width * s, dh = img.height * s;
+    ctx.drawImage(img, (CD.W - dw) / 2, (CD.H - dh) / 2, dw, dh);
+  } else {
+    /* fallback: céu e relva */
+    ctx.fillStyle = '#8ed6f5';
+    ctx.fillRect(0, 0, CD.W, gy);
+    ctx.fillStyle = '#ffd977';
+    ctx.beginPath(); ctx.arc(320, 34, 22, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#7ec850';
+    ctx.fillRect(0, gy - 14, CD.W, CD.H - gy + 14);
+    ctx.fillStyle = '#6cb844';
+    ctx.fillRect(0, gy - 14, CD.W, 8);
+  }
 
   /* lotes */
   ctx.font = '10px sans-serif';
@@ -377,6 +383,7 @@ CD.hexA = function (hex, a) {
 };
 
 CD.drawCow = function (ctx, x, y, time) {
+  if (ASSETS.cowImg) { CD.drawCowSprite(ctx, x, y, time); return; }
   const skin = COW_SKINS[S.equipped.skin] || COW_SKINS.frisia;
   const eq = S.equipped;
   const dir = CD.cow.dir;
@@ -446,5 +453,37 @@ CD.drawCow = function (ctx, x, y, time) {
     const emoji = { palha: '👒', bone: '🧢', boina: '🎩' }[eq.hat] || '👒';
     ctx.font = '20px sans-serif';
     ctx.fillText(emoji, x + dir * -34 - 10, y - 40);
+  }
+};
+
+/* Vaca com sprite gerado por IA + acessórios como overlays */
+CD.drawCowSprite = function (ctx, x, y, time) {
+  const eq = S.equipped;
+  const w = 78;
+  const h = w * ASSETS.cowImg.naturalHeight / ASSETS.cowImg.naturalWidth;
+  const bob = CD.phase === 'walk' ? Math.sin(time * 9) * 2 : 0;
+  const legTilt = CD.phase === 'walk' ? Math.sin(time * 11) * 0.05 : 0;
+
+  ctx.save();
+  ctx.translate(x, y + bob);
+  ctx.rotate(legTilt);
+  if (CD.cow.dir === 1) ctx.scale(-1, 1);
+  ctx.drawImage(ASSETS.cowImg, -w / 2, -h / 2 + 10, w, h);
+  ctx.restore();
+
+  const headX = x + (CD.cow.dir === 1 ? w * 0.27 : -w * 0.27);
+  if (eq.hat) {
+    const emoji = { palha: '👒', bone: '🧢', boina: '🎩' }[eq.hat] || '👒';
+    ctx.font = Math.round(h * 0.22) + 'px sans-serif';
+    ctx.fillText(emoji, headX - h * 0.11, y + bob - h * 0.34);
+  }
+  if (eq.glasses) {
+    ctx.font = Math.round(h * 0.17) + 'px sans-serif';
+    ctx.fillText('🕶️', headX - h * 0.09, y + bob - h * 0.12);
+  }
+  if (eq.neck) {
+    const emoji = eq.neck === 'sino' ? '🔔' : '🎀';
+    ctx.font = Math.round(h * 0.15) + 'px sans-serif';
+    ctx.fillText(emoji, headX + (CD.cow.dir === 1 ? -h * 0.02 : h * 0.02), y + bob + h * 0.10);
   }
 };

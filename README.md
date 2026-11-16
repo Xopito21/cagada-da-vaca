@@ -44,9 +44,11 @@ No telemóvel, abre o URL na mesma rede (ex.: `http://<ip-do-pc>:8080`).
 ```
 index.html          # ecrãs e topbar
 css/style.css       # tema cartoon mobile-first
+assets/             # arte gerada por IA (vaca, peças, fundos)
 js/state.js         # estado persistente + vidas
 js/i18n.js          # dicionários pt-PT / en
-js/cowsvg.js        # vaca SVG (skins + acessórios)
+js/cowsvg.js        # vaca (sprite IA + fallback SVG, skins por filtro CSS)
+js/assets.js        # carregador de assets com fallback emoji/SVG
 js/match3.js        # motor Match-3
 js/cowdrop.js       # Ronda da Vaca (canvas)
 js/farm.js          # quinta decorável
@@ -54,6 +56,20 @@ js/shop.js          # loja de cosméticos
 js/calendar.js      # calendário de 30 dias
 js/main.js          # navegação, modais, init
 ```
+
+## Arte (assets)
+
+Imagens geradas por IA (Black Forest/FLUX) em estilo cartoon casual:
+`bg-field.jpg` (arena da vaca), `bg-farm.jpg` (quinta/hero), `cow.png`
+(sprite recortado com transparência) e `piece-*.png` (peças do Match-3).
+O processamento (chave cromática do fundo magenta por flood-fill a partir
+das bordas + fatiamento por componentes conexos) foi feito offline e as
+imagens finais são embarcadas no repo. Se algum asset falhar ao carregar,
+o jogo usa automaticamente o fallback emoji/SVG.
+
+Skins: aplicadas como filtros CSS sobre o sprite (sepia/hue-rotate) —
+solução de protótipo; a versão final deve ter sprites por skin desenhados
+ou gerados individualmente para máxima qualidade.
 
 ## Roadmap sugerido
 

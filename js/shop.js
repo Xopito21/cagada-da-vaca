@@ -4,7 +4,7 @@ const Shop = {
 
   render() {
     const preview = document.getElementById('shop-preview');
-    preview.innerHTML = cowSVG(S.equipped.skin, S.equipped);
+    preview.innerHTML = cowHTML(160);
 
     const list = document.getElementById('shop-list');
     list.innerHTML = '';
