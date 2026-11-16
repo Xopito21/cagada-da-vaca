@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#5aa832">
+<title>A Cagada da Vaca</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="topbar">
+  <div class="res coins">🪙 <span id="res-coins">0</span></div>
+  <div class="res shoes">🧲 <span id="res-shoes">0</span></div>
+  <div class="res stars">⭐ <span id="res-stars">0</span></div>
+  <div class="res lives">❤️ <span id="res-lives">0</span></div>
+  <button id="btn-lang" class="mini-btn">EN</button>
+</div>
+
+<main id="app">
+
+  <!-- HOME -->
+  <section id="screen-home" class="screen active">
+    <div class="home-hero">
+      <div id="home-cow"></div>
+      <div class="home-names">
+        <div id="home-player" class="home-player">👤 Jogador</div>
+        <div id="home-cowname" class="home-cowname">🐮 "Mimosa"</div>
+      </div>
+    </div>
+    <button class="btn big primary" id="btn-play-cow">🐮 <span data-i18n="play_cow"></span></button>
+    <button class="btn big alt" id="btn-play-match3">🥬 <span data-i18n="play_match3"></span></button>
+    <div class="home-row">
+      <button class="btn" id="btn-farm">🚜 <span data-i18n="nav_farm"></span></button>
+      <button class="btn" id="btn-shop">🛒 <span data-i18n="nav_shop"></span></button>
+    </div>
+    <div class="home-row">
+      <button class="btn" id="btn-calendar">📅 <span data-i18n="nav_calendar"></span></button>
+      <button class="btn" id="btn-ad">📺 <span data-i18n="rewarded_ad"></span></button>
+    </div>
+    <p class="footnote" data-i18n="prototype_note"></p>
+  </section>
+
+  <!-- MATCH 3 -->
+  <section id="screen-match3" class="screen">
+    <button class="btn back" data-back>←</button>
+    <div class="m3-hud">
+      <div><span data-i18n="level"></span> <b id="m3-level">1</b></div>
+      <div><span data-i18n="moves"></span> <b id="m3-moves">20</b></div>
+      <div><span data-i18n="goal"></span> <b id="m3-score">0</b>/<b id="m3-goal">1000</b></div>
+    </div>
+    <div class="m3-progress"><div id="m3-progress-fill"></div></div>
+    <div id="m3-board"></div>
+    <p class="m3-tip" data-i18n="m3_tip"></p>
+  </section>
+
+  <!-- COW DROP -->
+  <section id="screen-cowdrop" class="screen">
+    <button class="btn back" data-back>←</button>
+    <div class="cd-hud">
+      <div id="cd-phase">—</div>
+      <div id="cd-timer">—</div>
+    </div>
+    <canvas id="cd-canvas" width="360" height="460"></canvas>
+    <div class="cd-items">
+      <button class="btn item" id="cd-item-couve">🥬 ×<span id="cd-couve-n">3</span></button>
+      <button class="btn item" id="cd-item-chocalho">🔔 ×<span id="cd-chocalho-n">2</span></button>
+    </div>
+    <div id="cd-pot" class="cd-pot">🪙 0</div>
+  </section>
+
+  <!-- FARM -->
+  <section id="screen-farm" class="screen">
+    <button class="btn back" data-back>←</button>
+    <h2 data-i18n="nav_farm"></h2>
+    <div id="farm-scene"></div>
+    <h3 data-i18n="farm_shop"></h3>
+    <div id="farm-shop" class="card-list"></div>
+  </section>
+
+  <!-- SHOP -->
+  <section id="screen-shop" class="screen">
+    <button class="btn back" data-back>←</button>
+    <h2 data-i18n="nav_shop"></h2>
+    <div class="shop-tabs">
+      <button class="btn" data-tab="skins" id="tab-skins"></button>
+      <button class="btn" data-tab="acc" id="tab-acc"></button>
+    </div>
+    <div id="shop-preview"></div>
+    <div id="shop-list" class="card-list"></div>
+  </section>
+
+  <!-- CALENDAR -->
+  <section id="screen-calendar" class="screen">
+    <button class="btn back" data-back>←</button>
+    <h2 data-i18n="nav_calendar"></h2>
+    <div id="cal-grid"></div>
+    <button class="btn big primary" id="cal-claim">🎁 <span data-i18n="cal_claim"></span></button>
+  </section>
+
+</main>
+
+<div id="modal-root"></div>
+<script src="js/state.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/cowsvg.js"></script>
+<script src="js/match3.js"></script>
+<script src="js/cowdrop.js"></script>
+<script src="js/farm.js"></script>
+<script src="js/shop.js"></script>
+<script src="js/calendar.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
